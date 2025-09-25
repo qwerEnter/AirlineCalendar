@@ -1,0 +1,69 @@
+<template>
+    <!-- Booking Form -->
+    <lightning-card title="Airline Calendar" icon-name="standard:travel_mode">
+        <div class="slds-p-around_medium">
+            
+            <lightning-input 
+                type="text" 
+                label="Name" 
+                value={passengerName} 
+                onchange={handleNameChange}>
+            </lightning-input>
+
+            <lightning-input 
+                type="date" 
+                label="Departure Date" 
+                value={departureDate} 
+                data-id="departureDate"
+                onchange={handleDepartureChange}
+                min={todayDate}>
+            </lightning-input>
+
+            <lightning-input 
+                type="date" 
+                label="Return Date" 
+                value={returnDate} 
+                data-id="returnDate"
+                onchange={handleReturnChange}
+                min={returnMinDate}>
+            </lightning-input>
+
+            <div class="slds-m-top_large">
+                <lightning-button 
+                    label="Book Flight" 
+                    variant="brand" 
+                    onclick={handleSave}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+
+    <!-- Booking List -->
+    <lightning-card title="Recent Bookings" icon-name="standard:task">
+        <div class="slds-p-around_medium">
+            <template if:true={bookings}>
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr>
+                            <th scope="col">Passenger</th>
+                            <th scope="col">Departure</th>
+                            <th scope="col">Return</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={bookings} for:item="booking">
+                            <tr key={booking.Id}>
+                                <td>{booking.Passenger_Name__c}</td>
+                                <td>{booking.Departure_Date__c}</td>
+                                <td>{booking.Return_Date__c}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+            <template if:false={bookings}>
+                <p>No bookings found.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
