@@ -107,8 +107,6 @@ export default class AirlineCalendar extends LightningElement {
         }
         console.log('Saving booking:', this.passengerName, this.departureDate, this.returnDate)
 
-        
-
         saveBooking({ 
             name: this.passengerName, 
             departureDate: this.departureDate, 
