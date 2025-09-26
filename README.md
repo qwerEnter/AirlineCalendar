@@ -1,6 +1,6 @@
 # AirlineCalendar
 
-**Departure Date Validation**: 
+**Departure Date Validation**: Malaysian TIme zone
 - The **departure date** cannot be selected **before today**
 
 **Return Date Validation**:
