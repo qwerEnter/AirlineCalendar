@@ -12,18 +12,8 @@ export default class AirlineCalendar extends LightningElement {
     @track bookings = [];
     @track isRecordSaved = false;
     isLibLoaded = false;
-    todayDate = this.getTodayDateinMalaysia();
+    todayDate = new Date().toISOString().split('T')[0];
     returnMinDate = this.todayDate;
-
-    connectedCallback() {
-        console.log('todayDate:', this.todayDate);
-    }
-
-    getTodayDateinMalaysia() {
-        const today = new Date();
-        today.setMinutes(today.getMinutes() + today.getTimezoneOffset() + 480); // Malaysia is UTC+8
-        return today.toISOString().split('T')[0];
-    }
 
     @wire(getBookings)
     wiredBookings({ error, data }) {
@@ -86,27 +76,22 @@ export default class AirlineCalendar extends LightningElement {
     }
 
     handleSave() {
-        const today = new Date(this.todayDate);
-        const departureDateObj = new Date(this.departureDate);
-        const returnDateObj = new Date(this.returnDate);
-
-        console.log('departureDateObj:', departureDateObj);
-        console.log('returnDateObj:', returnDateObj);
-
-        if (!this.passengerName || !this.departureDate || !this.returnDate) {
-            alert('⚠️ Please fill in all fields before booking.');
-            return;
-        }
-        if (departureDateObj < today) {
+        const today = new Date().toISOString().split('T')[0];
+        if (this.departureDate < today) {
             alert('⚠️ Departure date cannot be before today.');
             return;
         }
-        if (returnDateObj < departureDateObj) {
+        if (this.returnDate < this.departureDate) {
             alert('⚠️ Return date cannot be before departure date.');
             return;
         }
         console.log('Saving booking:', this.passengerName, this.departureDate, this.returnDate)
 
+        if (!this.passengerName || !this.departureDate || !this.returnDate) {
+            alert('⚠️ Please fill in all fields before booking.');
+            return;
+        }
+        
         saveBooking({ 
             name: this.passengerName, 
             departureDate: this.departureDate, 
